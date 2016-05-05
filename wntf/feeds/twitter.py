@@ -8,6 +8,7 @@ from .base import Feed
 class AlgorithmChoice(object):
     PROFILE = 'profile'
     FEED = 'feed'
+    DUMMY = 'dummy'
 
 
 class TwitterFeed(Feed):
@@ -34,7 +35,12 @@ class TwitterFeed(Feed):
         timeline = self.client.GetUserTimeline(screen_name=self.user)
         return [s.text for s in timeline]
 
+    def get_dummy_iter(self):
+        from nltk.corpus import twitter_samples
+        return twitter_samples.strings('positive_tweets.json')
+
     algorithm_map = {
         AlgorithmChoice.PROFILE: get_profile_iter,
-        AlgorithmChoice.FEED: get_feed_iter
+        AlgorithmChoice.FEED: get_feed_iter,
+        AlgorithmChoice.DUMMY: get_dummy_iter
     }
