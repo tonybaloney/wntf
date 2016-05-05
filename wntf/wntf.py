@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import yaml
 from .feeds.twitter import TwitterFeed
+from .algorithm import tokenize
 
 
 def main():
@@ -14,7 +15,7 @@ def main():
         config['user']
     )
     for m in feed.fetch_data():
-        print(m)
+        print(tokenize(m))
 
 if __name__ == '__main__':
     main()

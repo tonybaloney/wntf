@@ -11,7 +11,7 @@ class AlgorithmChoice(object):
 
 
 class TwitterFeed(Feed):
-    algorithm_choice = AlgorithmChoice.FEED
+    algorithm_choice = AlgorithmChoice.PROFILE
 
     def __init__(self, consumer_key, consumer_secret, access_token,
                  access_token_secret, user):
@@ -27,10 +27,12 @@ class TwitterFeed(Feed):
         return TwitterFeed.algorithm_map[self.algorithm_choice](self)
 
     def get_profile_iter(self):
-        pass
+        mates = self.client.GetFriends(screen_name=self.user)
+        return [mate.description for mate in mates]
 
     def get_feed_iter(self):
-        return self.client.GetUserTimeline(screen_name=self.user)
+        timeline = self.client.GetUserTimeline(screen_name=self.user)
+        return [s.text for s in timeline]
 
     algorithm_map = {
         AlgorithmChoice.PROFILE: get_profile_iter,
