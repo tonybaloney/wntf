@@ -2,9 +2,9 @@
 import yaml
 import json
 from functools import reduce
-
-from .feeds.twitter import TwitterFeed
-from .algorithm import tag, nouns
+from pprint import pprint
+from .feeds.twitter import TwitterFeed, AlgorithmChoice
+from .algorithm import tag, nouns, antonyms
 
 
 def main():
@@ -19,15 +19,24 @@ def main():
     )
     data = feed.fetch_data()
 
-    with open('cache.json', 'w') as outfile:
-        json.dump(data, outfile)
+    if TwitterFeed.algorithm_choice != AlgorithmChoice.DUMMY:
+        with open('cache.json', 'w') as outfile:
+            json.dump(data, outfile)
 
     word_cloud = []
     reduce(lambda x, y: word_cloud.extend(tag(y)),
                     data)
     word_cloud_nouns = nouns(word_cloud)
+
+    with open('exclude_words.txt', 'r') as exclude:
+        exclude_words = exclude.read_lines()
+
     try:
-        print(word_cloud_nouns)
+        for noun_type in list(word_cloud_nouns):
+            for word in word_cloud_nouns[noun_type]:
+                if word not in exclude_words:
+                    pprint(antonyms(word[0]))
+
     except UnicodeEncodeError:
         print("Contains unicode, skipping")
         pass

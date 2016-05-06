@@ -12,7 +12,7 @@ class AlgorithmChoice(object):
 
 
 class TwitterFeed(Feed):
-    algorithm_choice = AlgorithmChoice.PROFILE
+    algorithm_choice = AlgorithmChoice.DUMMY
 
     def __init__(self, consumer_key, consumer_secret, access_token,
                  access_token_secret, user):
@@ -21,7 +21,8 @@ class TwitterFeed(Feed):
             consumer_secret=consumer_secret,
             access_token_key=access_token,
             access_token_secret=access_token_secret)
-        self.client.VerifyCredentials()
+        if TwitterFeed.algorithm_choice != AlgorithmChoice.DUMMY:
+            self.client.VerifyCredentials()
         self.user = user
 
     def fetch_data(self):
@@ -36,8 +37,10 @@ class TwitterFeed(Feed):
         return [s.text for s in timeline]
 
     def get_dummy_iter(self):
-        from nltk.corpus import twitter_samples
-        return twitter_samples.strings('positive_tweets.json')
+        import json
+        with open('cache.json', 'r') as file:
+            text = file.read()
+            return json.loads(text)
 
     algorithm_map = {
         AlgorithmChoice.PROFILE: get_profile_iter,
