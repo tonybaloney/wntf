@@ -23,7 +23,7 @@ skills and find out about the lastest cool new utility and project going around.
 
 An anti-recommendation algorithm for twitter
 
-* Free software: ISC license
+* Free software: MIT license
 * Documentation: https://wntf.readthedocs.org.
 
 How it works
