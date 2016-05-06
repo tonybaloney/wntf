@@ -67,4 +67,13 @@ def process(data):
                             wheel['words'].append(nets[0])
                     else:
                         log.warning('%s was not found in the synsets', word)
+
+    '''
+    
+    TODO: This is half finished (my flight leaves soon)
+    - build up a map of wheels and the words in those wheels (e.g professions, regligion, interests)
+    - map those in a chord where the size of the difference between the angles in the chord represents the difference,
+        e.g. carpenter is very different to IT, but banker is similar to accountant
+    
+    '''
     pprint(wheels)

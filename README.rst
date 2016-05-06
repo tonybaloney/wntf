@@ -110,6 +110,8 @@ Then we look at the following characteristics of the word 'technology':
 The diversity wheel
 -------------------
 
+.. image:: http://web.jhu.edu/sebin/t/m/DiversityWheel_Small.jpg
+
 The diversity wheel has many characterstics,  such as :
 
 - gender
@@ -120,6 +122,15 @@ The diversity wheel has many characterstics,  such as :
 If we put the nouns into buckets in the diversity wheel based on their hypernyms then we find a better view of your following.
 
 Also, we don't want to assume that all of your followers are the same, so we'll weight each instance based on it's frequency.
+
+TODO
+----
+This is half finished (my flight leaves soon)
+- build up a map of wheels and the words in those wheels (e.g professions, regligion, interests)
+- map those in a chord where the size of the difference between the angles in the chord represents the difference, e.g. carpenter is very different to IT, but banker is similar to accountant
+- rank all your words into the chords, show the chord diagrams and then plot points furthest away and use those words to make recommendations.
+
+The wheels will represent the diversity wheel (http://web.jhu.edu/sebin/t/m/DiversityWheel_Small.jpg)
 
 Credits
 ---------
