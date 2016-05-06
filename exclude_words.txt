@@ -5,3 +5,6 @@ views
 http
 news
 account
+@
+|
+/

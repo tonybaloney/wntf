@@ -36,8 +36,8 @@ of your followers.
 
 The first thing to look at is the nouns in the followers description and the most common nouns. For me, this is :
 
-```
-{'NN': [('https', 80),
+
+    {'NN': [('https', 80),
         ('cloud', 56),
         ('@', 39),
         ('technology', 36),
@@ -58,7 +58,6 @@ The first thing to look at is the nouns in the followers description and the mos
         ('geek', 17),
         ('code', 17)],
         }
-```
 
 So what can we tell about those nouns?
 
@@ -75,8 +74,7 @@ Once you filter that list I can see that my followers' characteristics in a few 
 
 Looking at the Proper nouns I can also get some other interesting information:
 
-```
-'NNP': [('@', 313),
+    'NNP': [('@', 313),
         ('Cloud', 92),
         ('|', 74),
         ('Data', 63),
@@ -96,7 +94,6 @@ Looking at the Proper nouns I can also get some other interesting information:
         ('/', 24),
         ('Technology', 23),
         ('Dad', 23)],
-```
 
 Again filtering out some of the fluff, like @ and `/`
 
@@ -110,7 +107,8 @@ Then we look at the following characteristics of the word 'technology':
 - The hypernyms, in this case 'application' and 'profession' (we are interested in this)
 - The hyponyms (subsets), 'aeronautical engineering', 'automotive technology' 'chemical engineering' etc.
 
-### The diversity wheel
+The diversity wheel
+-------------------
 
 The diversity wheel has many characterstics,  such as :
 
@@ -119,8 +117,9 @@ The diversity wheel has many characterstics,  such as :
 - interests
 - religion
 
-If we put the nouns into buckets in the diversity wheel based on their hypernyms then we find the following
+If we put the nouns into buckets in the diversity wheel based on their hypernyms then we find a better view of your following.
 
+Also, we don't want to assume that all of your followers are the same, so we'll weight each instance based on it's frequency.
 
 Credits
 ---------
