@@ -1,12 +1,19 @@
 # -*- coding: utf-8 -*-
 import yaml
+import argparse
 import json
-from functools import reduce
+import logging
+
 from .feeds.twitter import TwitterFeed, AlgorithmChoice
-from .algorithm import process, tag
+from .algorithm import DiversityAlgorithm
 
 
-def main():
+def main(args):
+    log = logging.getLogger('__main__')
+    if args.debug:
+        print('Using debug level for logging')
+        log.setLevel(logging.DEBUG)
+
     with open('config.yml') as f:
         config = yaml.load(f)
     feed = TwitterFeed(
@@ -22,8 +29,13 @@ def main():
         with open('cache.json', 'w') as outfile:
             json.dump(data, outfile)
 
-    process(data)
+    alg = DiversityAlgorithm(log)
+    alg.process(data)
+    print(alg.wheels)
 
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('-d', '--debug', action='store_true')
+    args = parser.parse_args()
+    main(args)
