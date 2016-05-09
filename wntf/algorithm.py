@@ -3,12 +3,14 @@ import nltk
 from nltk.corpus import wordnet
 from functools import reduce
 
+from .graphs import word_cloud as graph
+
 
 class DiversityAlgorithm(object):
     def __init__(self, log):
         self.log = log
         with open('exclude_words.txt', 'r') as exclude:
-            self.exclude_words = exclude.readlines()
+            self.exclude_words = [line.rstrip() for line in exclude]
             self.log.debug('Filtering a collection of %i words',
                            len(self.exclude_words))
 
@@ -50,11 +52,20 @@ class DiversityAlgorithm(object):
         # Merge all the profile descriptions into 1 tag collection
         reduce(lambda x, y: word_cloud.extend(self.tag(y)), data)
         word_cloud_nouns = self.nouns(word_cloud)
+        word_cloud_combined = []
+
+        for noun_type, words in word_cloud_nouns.items():
+            word_cloud_combined.extend(words)
+        word_cloud_combined = filter(lambda x: x[0] not in self.exclude_words,
+                                     word_cloud_combined)
+        # Create visual word cloud
+        graph(word_cloud_combined)
 
         for noun_type, words in word_cloud_nouns.items():
             for word, _ in words:
                 if word not in self.exclude_words:
                     self.log.debug('Assessing nets for %s', word)
+
                     nets = wordnet.synsets(word)
                     self.log.debug('Got %i synsets', len(nets))
                     # inspect the first net and see what type of word it is

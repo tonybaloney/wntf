@@ -1,3 +1,5 @@
 nltk
 python-twitter
-
+matplotlib
+wordcloud
+Image

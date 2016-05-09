@@ -9,6 +9,7 @@ from .algorithm import DiversityAlgorithm
 
 
 def main(args):
+    logging.info('Starting logger for...')
     log = logging.getLogger('__main__')
     if args.debug:
         print('Using debug level for logging')
