@@ -7,4 +7,4 @@ def word_cloud(f):
     # Open a plot of the generated image.
     plt.imshow(wordcloud)
     plt.axis("off")
-    plt.show()
+    plt.savefig('out/word_cloud.png', dpi=300, format='png')

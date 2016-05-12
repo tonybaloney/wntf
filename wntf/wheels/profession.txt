@@ -1,0 +1,52 @@
+# unemployer
+student
+
+# cultural
+philosopher
+clergy, vicar, rector, priest
+
+# civil
+engineer, civil-engineer, construction
+builder, carpenter, plumber, welder
+mechanic, car-mechanic
+
+# academics
+professor, lecturer
+teacher
+
+# scientific - medical
+anesthesiologist
+audiologist
+chiropractor
+dentist
+dietitian
+optometrist
+pharmacist
+physical therapist
+physician
+radiographer
+radiotherapist
+speech-language pathologist, speech-language therapist
+surgeon
+
+# industrial
+engineer
+
+surveyor
+accountant
+architect
+linguist, translator, interpreter
+
+# public services
+lawyer, solicitor, barrister
+social worker
+
+# scientific - academic
+
+astronomer
+biologist, botanist, ecologist, genetesist, immunologist, paleontologist, virologist, zoologist
+pharmacologist, chemist
+geologist
+meteorologist
+oceanographer
+physicist
