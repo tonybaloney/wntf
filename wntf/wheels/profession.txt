@@ -50,3 +50,18 @@ geologist
 meteorologist
 oceanographer
 physicist
+
+# computing
+
+developer, programmer, hacker, coder
+engineer, architect, sysadmin, administrator
+designer
+
+# executive
+
+Director
+CTO
+CEO, Chief, Executive
+CFO
+CIO
+COO

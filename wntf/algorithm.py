@@ -102,7 +102,6 @@ class DiversityAlgorithm(object):
                 wheel['pattern'][indices[0].rstrip()] = {'words': [item.strip() for item in indices],
                                                          'matches': [],
                                                          'count': 0}
-        print(wheel['pattern'])
 
     def load_wheels(self):
         '''
@@ -111,36 +110,33 @@ class DiversityAlgorithm(object):
         for key, wheel in self.wheels.items():
             self.load_wheel(wheel, wheel['data'])
 
-    def increment_pattern(self, pattern, word):
+    def increment_pattern(self, pattern, word, count):
         '''
         A word has matched a pattern in a wheel, increment the match on the wheel
         '''
-        pattern['count'] = pattern['count'] + 1
+        pattern['count'] = pattern['count'] + count
         pattern['matches'].append(word)
 
-    def match_wheel_word(self, wheel, hypernym):
+    def match_wheel_word(self, wheel, word, count):
         '''
         Try and match a word against a wheel
 
         :param wheel: The target wheel
         :type  wheel: ``dict``
 
-        :param hypernym: The word to match
-        :type  hypernym: ``str``
+        :param word: The word to match
+        :type  word: ``str``
 
         :rtype: ``bool``
         :return: `True` if match, else `False`
         '''
         for key, patterns in wheel['pattern'].items():
-            if key == hypernym:
-                self.increment_pattern(patterns, hypernym)
-                return True
-            if hypernym in patterns['words']:
-                self.increment_pattern(patterns, hypernym)
+            if word in patterns['words']:
+                self.increment_pattern(patterns, word, count)
                 return True
         return False
 
-    def match_wheel(self, wheel, synset, word):
+    def match_wheel(self, wheel, synset, word, count):
         '''
         Attempt to match a keyword to a wheel
 
@@ -156,12 +152,19 @@ class DiversityAlgorithm(object):
         :rtype: ``bool``
         :return: `True` if match, else `False`
         '''
+        # first check if the word itself matches a wheel
+        if self.match_wheel_word(wheel, word, count):
+            self.log.debug('matched word %s to wheel', word)
+            return True
         # see if each hypernym matches a wheel
-        for hypernym in synset.hypernyms():
-            proper_name = hypernym.name().split('.')[:1][0]
-            if self.match_wheel_word(wheel, proper_name):
-                self.log.debug('matched %s to wheel', proper_name)
-                return True
+        synsets = wordnet.synsets(word)
+        if len(synsets) > 0:
+            for synset in synsets:
+                for hypernym in synset.hypernyms():
+                    proper_name = hypernym.name().split('.')[:1][0]
+                    if self.match_wheel_word(wheel, proper_name, count):
+                        self.log.debug('matched %s to wheel', proper_name)
+                        return True
         return False
 
     def process(self, data):
@@ -177,24 +180,17 @@ class DiversityAlgorithm(object):
                                      word_cloud_combined)
         # Create visual word cloud
         graph(word_cloud_combined)
-
         for noun_type, words in word_cloud_nouns.items():
-            for word, _ in words:
-                self.log.debug('Assessing nets for %s:%s', word, noun_type)
-
+            for word, count in words:
                 nets = wordnet.synsets(word)
-                self.log.debug('Got %i synsets', len(nets))
                 # inspect the first net and see what type of word it is
                 for key, wheel in self.wheels.items():
-                    if len(nets) > 0:
-                        for net in nets:
-                            self.match_wheel(wheel, net, word)
-                            # todo - break on match
-                    else:
-                        self.log.warning('%s was not found in the synsets', word)
+                    if self.match_wheel(wheel, nets, word, count):
+                        break
 
         '''
         TODO:
-        - map those in a chord where the size of the difference between the angles in the chord represents the difference,
+        - map those in a chord where the size of the difference
+            between the angles in the chord represents the difference,
             e.g. carpenter is very different to IT, but banker is similar to accountant
         '''
