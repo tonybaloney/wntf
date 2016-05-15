@@ -3,3 +3,4 @@ python-twitter
 matplotlib
 wordcloud
 Image
+numpy

@@ -3,7 +3,8 @@ import nltk
 from nltk.corpus import wordnet
 from functools import reduce
 
-from .graphs import word_cloud as graph
+from .graphs import word_cloud as graph_words
+from .graphs import wheel_radii
 
 
 class DiversityAlgorithm(object):
@@ -179,7 +180,7 @@ class DiversityAlgorithm(object):
         word_cloud_combined = filter(lambda x: x[0].lower() not in self.exclude_words,
                                      word_cloud_combined)
         # Create visual word cloud
-        graph(word_cloud_combined)
+        graph_words(word_cloud_combined)
         for noun_type, words in word_cloud_nouns.items():
             for word, count in words:
                 nets = wordnet.synsets(word)
@@ -188,6 +189,8 @@ class DiversityAlgorithm(object):
                     if self.match_wheel(wheel, nets, word, count):
                         break
 
+        for key, wheel in self.wheels.items():
+            wheel_radii(wheel, key)
         '''
         TODO:
         - map those in a chord where the size of the difference
