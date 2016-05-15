@@ -22,11 +22,15 @@ def wheel_radii(wheel, name):
 
     ax = plt.subplot(111, projection='polar')
     bars = ax.bar(theta, radii, width=width, bottom=0.0)
-    for r, bar in zip(radii, bars):
+    for r, theta, bar in zip(radii, theta, bars):
         bar.set_label(name)
         bar.set_facecolor(plt.cm.jet(r / 10.))
         bar.set_alpha(0.5)
-        ax.annotate('center top', (bar.get_x(), r), xycoords='polar')
+        ax.annotate('center top', (theta, r), xytext=(0.05, 0.05),    # fraction, fraction
+            textcoords='figure fraction',
+            arrowprops=dict(facecolor='black', shrink=0.05),
+            horizontalalignment='left',
+            verticalalignment='bottom')
     plt.title(name)
     plt.savefig('out/wheel_%s.png' % name, dpi=300, format='png')
     plt.show()

@@ -10,7 +10,7 @@ Tests for `wntf` module.
 
 import unittest
 
-from wntf import wntf
+from wntf.algorithm import DiversityAlgorithm
 
 
 class TestWntf(unittest.TestCase):
